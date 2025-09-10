@@ -62,9 +62,8 @@ resource "aws_vpc_endpoint" "interface_endpoints" {
 }
 
 
-# -----------------------------
+
 # VPC Module
-# -----------------------------
 module "vpc" {
   source                = "./modules/vpc"
   cluster_name          = var.cluster_name
@@ -74,9 +73,8 @@ module "vpc" {
   availability_zones    = var.availability_zones
 }
 
-# -----------------------------
+
 # VPC Endpoint Module
-# -----------------------------
 module "vpc_endpoints" {
   source             = "./modules/vpc_endpoint"
   cluster_name       = var.cluster_name
@@ -92,15 +90,4 @@ module "vpc_endpoints" {
   ]
 }
 
-# -----------------------------
-# Outputs
-# -----------------------------
-output "s3_endpoint_id" {
-  value       = module.vpc_endpoints.s3_endpoint_id
-  description = "ID of the created S3 Gateway Endpoint"
-}
 
-output "interface_endpoints" {
-  value       = module.vpc_endpoints.interface_endpoints
-  description = "Map of interface endpoint names to IDs"
-}

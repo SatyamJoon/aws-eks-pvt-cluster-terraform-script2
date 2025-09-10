@@ -27,23 +27,22 @@ module "security_groups" {
 module "eks" {
   source = "./modules/eks"
 
-  cluster_name               = var.cluster_name
-  cluster_version            = var.cluster_version
-  aws_region                 = var.aws_region
-  private_subnet_ids         = module.vpc.private_subnet_ids
-  cluster_role_arn_eks       = module.iam.eks_cluster_role_arn    
-  node_group_role_arn        = module.iam.eks_node_group_role_arn
-  node_group_desired         = var.node_group_desired
-  node_group_min             = var.node_group_min
-  node_group_max             = var.node_group_max
-  node_group_instance_types  = var.node_group_instance_types
+  cluster_name              = var.cluster_name
+  cluster_version           = var.cluster_version
+  aws_region                = var.aws_region
+  private_subnet_ids        = module.vpc.private_subnet_ids
+  cluster_role_arn          = module.iam.eks_cluster_role_arn    
+  node_group_role_arn       = module.iam.eks_node_group_role_arn
+  node_group_desired        = var.node_group_desired
+  node_group_min            = var.node_group_min
+  node_group_max            = var.node_group_max
+  node_group_instance_types = var.node_group_instance_types
 
-  cluster_dependencies = [
+  cluster_role_policy_attachment = [
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSServicePolicy
   ]
 }
-
 
 # VPC Endpoint Module
 module "vpc_endpoints" {

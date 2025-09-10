@@ -1,6 +1,5 @@
-# -----------------------------
+
 # General / Cluster
-# -----------------------------
 variable "cluster_name" {
   description = "Name of the EKS cluster and prefix for resources"
   type        = string
@@ -19,9 +18,7 @@ variable "cluster_version" {
   default     = "1.29"
 }
 
-# -----------------------------
 # VPC
-# -----------------------------
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
@@ -46,9 +43,7 @@ variable "availability_zones" {
   default     = []
 }
 
-# -----------------------------
 # Node Group
-# -----------------------------
 variable "node_group_desired" {
   description = "Desired number of worker nodes"
   type        = number
