@@ -1,6 +1,4 @@
-# -----------------------------
 # VPC Module
-# -----------------------------
 module "vpc" {
   source                = "./modules/vpc"
   cluster_name          = var.cluster_name
@@ -10,17 +8,14 @@ module "vpc" {
   availability_zones    = var.availability_zones
 }
 
-# -----------------------------
+
 # IAM Module (roles for EKS & Nodes)
-# -----------------------------
 module "iam" {
   source       = "./modules/iam"
   cluster_name = var.cluster_name
 }
 
-# -----------------------------
 # Security Group Module (for workers)
-# -----------------------------
 module "security_groups" {
   source       = "./modules/security-groups"
   cluster_name = var.cluster_name
@@ -28,9 +23,7 @@ module "security_groups" {
   vpc_cidr     = var.vpc_cidr
 }
 
-# -----------------------------
 # EKS Module
-# -----------------------------
 module "eks" {
   source = "./modules/eks"
 
@@ -52,9 +45,7 @@ module "eks" {
 }
 
 
-# -----------------------------
 # VPC Endpoint Module
-# -----------------------------
 module "vpc_endpoints" {
   source             = "./modules/vpc_endpoint"
   cluster_name       = var.cluster_name
@@ -68,25 +59,3 @@ module "vpc_endpoints" {
   )
 }
 
-# -----------------------------
-# Outputs
-# -----------------------------
-output "eks_cluster_endpoint" {
-  value = module.eks.cluster_endpoint
-}
-
-output "eks_node_group_arn" {
-  value = module.eks.node_group_arn
-}
-
-output "workers_sg_id" {
-  value = module.security_groups.worker_sg_id
-}
-
-output "s3_endpoint_id" {
-  value = module.vpc_endpoints.s3_endpoint_id
-}
-
-output "interface_endpoints" {
-  value = module.vpc_endpoints.interface_endpoints
-}
