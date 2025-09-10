@@ -1,4 +1,12 @@
+# modules/iam/variables.tf
+
 variable "cluster_name" {
-  description = "EKS Cluster name (used for IAM role naming)"
   type        = string
+  description = "Name of the EKS cluster"
+}
+
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Tags to apply to IAM roles"
 }

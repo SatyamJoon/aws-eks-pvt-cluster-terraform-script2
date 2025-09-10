@@ -1,4 +1,4 @@
-output "worker_sg_id" {
-  description = "Security Group ID for EKS worker nodes"
+output "security_group_id" {
   value       = aws_security_group.workers.id
+  description = "Security group ID for EKS worker nodes"
 }

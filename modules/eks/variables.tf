@@ -1,69 +1,67 @@
-########################################
-# EKS Cluster Variables
-########################################
+# modules/eks/variables.tf
 
 variable "cluster_name" {
-  description = "Name of the EKS cluster"
   type        = string
+  description = "Name of the EKS cluster"
 }
 
 variable "cluster_version" {
-  description = "Kubernetes version for the EKS cluster"
   type        = string
-  default     = "1.30"
-}
-
-variable "aws_region" {
-  description = "AWS region where the cluster will be created"
-  type        = string
-}
-
-variable "private_subnet_ids" {
-  description = "List of private subnet IDs for the EKS cluster and node groups"
-  type        = list(string)
+  description = "EKS cluster version"
 }
 
 variable "cluster_role_arn" {
-  description = "IAM role ARN for the EKS control plane"
   type        = string
+  description = "IAM role ARN for the EKS cluster"
 }
 
-variable "node_group_role_arn" {
-  description = "IAM role ARN for the EKS node group"
-  type        = string
-}
-
-# This allows you to pass IAM policy attachments from IAM module
-variable "cluster_role_policy_attachment" {
-  description = "List of dependencies for EKS cluster role policies"
+variable "cluster_role_attachments" {
   type        = list(any)
+  description = "IAM role policy attachments for the cluster"
   default     = []
 }
 
-########################################
-# Node Group Variables
-########################################
+variable "node_group_role_arn" {
+  type        = string
+  description = "IAM role ARN for the node group"
+}
+
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "Private subnet IDs for EKS cluster and node group"
+}
 
 variable "node_group_desired" {
-  description = "Desired number of worker nodes"
   type        = number
   default     = 2
+  description = "Desired number of nodes"
 }
 
 variable "node_group_min" {
-  description = "Minimum number of worker nodes"
   type        = number
   default     = 1
+  description = "Minimum number of nodes"
 }
 
 variable "node_group_max" {
-  description = "Maximum number of worker nodes"
   type        = number
   default     = 3
+  description = "Maximum number of nodes"
 }
 
 variable "node_group_instance_types" {
-  description = "List of EC2 instance types for worker nodes"
   type        = list(string)
   default     = ["t3.medium"]
+  description = "EC2 instance types for node group"
+}
+
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Tags to apply to the cluster"
+}
+
+variable "aws_region" {
+  type        = string
+  description = "AWS region"
 }

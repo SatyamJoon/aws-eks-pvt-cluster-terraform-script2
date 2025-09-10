@@ -1,34 +1,19 @@
 output "vpc_id" {
-  value       = aws_vpc.this.id
-  description = "VPC ID"
+  value = aws_vpc.this.id
 }
 
 output "public_subnet_ids" {
-  value       = [for s in aws_subnet.public : s.id]
-  description = "Public subnet IDs"
+  value = [for subnet in aws_subnet.public : subnet.id]
 }
 
 output "private_subnet_ids" {
-  value       = [for s in aws_subnet.private : s.id]
-  description = "Private subnet IDs"
+  value = [for subnet in aws_subnet.private : subnet.id]
 }
 
-output "nat_gateway_id" {
-  value       = aws_nat_gateway.nat.id
-  description = "NAT Gateway ID"
+output "route_table_private_id" {
+  value = aws_route_table.private.id
 }
 
-output "igw_id" {
-  value       = aws_internet_gateway.igw.id
-  description = "Internet Gateway ID"
-}
-
-output "public_route_table_id" {
-  value       = aws_route_table.public.id
-  description = "Public route table ID"
-}
-
-output "private_route_table_id" {
-  value       = aws_route_table.private.id
-  description = "Private route table ID"
+output "route_table_public_id" {
+  value = aws_route_table.public.id
 }

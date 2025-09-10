@@ -1,25 +1,27 @@
+# modules/vpc/variables.tf
+
 variable "cluster_name" {
-  description = "Cluster or project name"
   type        = string
+  description = "Name of the cluster / VPC"
 }
 
 variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
   type        = string
+  description = "CIDR block for the VPC"
 }
 
 variable "public_subnets_cidrs" {
-  description = "List of CIDRs for public subnets"
   type        = list(string)
+  description = "CIDR blocks for public subnets"
 }
 
 variable "private_subnets_cidrs" {
-  description = "List of CIDRs for private subnets"
   type        = list(string)
+  description = "CIDR blocks for private subnets"
 }
 
 variable "availability_zones" {
-  description = "List of AZs (leave empty to auto-select first 2 available)"
   type        = list(string)
   default     = []
+  description = "Optional AZs to use; if empty, first 2 AZs will be used"
 }

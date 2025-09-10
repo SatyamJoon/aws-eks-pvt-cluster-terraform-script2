@@ -1,9 +1,11 @@
+# modules/security-group/main.tf
+
 resource "aws_security_group" "workers" {
   name        = "${var.cluster_name}-workers-sg"
   description = "Security group for EKS worker nodes"
   vpc_id      = var.vpc_id
 
-  # Allow intra-node communication
+  # Allow nodes to talk to each other
   ingress {
     from_port   = 0
     to_port     = 0
@@ -12,7 +14,7 @@ resource "aws_security_group" "workers" {
     description = "Allow intra-node communication"
   }
 
-  # Allow worker nodes to reach EKS control plane
+  # Allow nodes to talk to cluster control plane (port 443)
   ingress {
     from_port   = 443
     to_port     = 443
@@ -29,7 +31,7 @@ resource "aws_security_group" "workers" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.cluster_name}-workers-sg"
-  }
+  tags = var.tags
 }
+
+
