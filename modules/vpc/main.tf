@@ -1,4 +1,3 @@
-# Get AZs if not specified
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -7,9 +6,7 @@ locals {
   azs = length(var.availability_zones) > 0 ? var.availability_zones : slice(data.aws_availability_zones.available.names, 0, 2)
 }
 
-# --------------------
 # VPC
-# --------------------
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
@@ -19,17 +16,13 @@ resource "aws_vpc" "this" {
   }
 }
 
-# --------------------
 # Internet Gateway
-# --------------------
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "${var.cluster_name}-igw" }
 }
 
-# --------------------
 # Public Subnets
-# --------------------
 resource "aws_subnet" "public" {
   for_each                = { for idx, cidr in var.public_subnets_cidrs : idx => cidr }
   vpc_id                  = aws_vpc.this.id
@@ -39,9 +32,8 @@ resource "aws_subnet" "public" {
   tags                    = { Name = "${var.cluster_name}-public-${each.key}" }
 }
 
-# --------------------
 # NAT Gateway
-# --------------------
+
 resource "aws_eip" "nat" {
   tags = { Name = "${var.cluster_name}-nat-eip" }
 }
@@ -53,9 +45,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on    = [aws_internet_gateway.igw]
 }
 
-# --------------------
 # Private Subnets
-# --------------------
 resource "aws_subnet" "private" {
   for_each                = { for idx, cidr in var.private_subnets_cidrs : idx => cidr }
   vpc_id                  = aws_vpc.this.id
@@ -65,9 +55,8 @@ resource "aws_subnet" "private" {
   tags                    = { Name = "${var.cluster_name}-private-${each.key}" }
 }
 
-# --------------------
+
 # Public Route Table -> IGW
-# --------------------
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
   route {
@@ -83,9 +72,8 @@ resource "aws_route_table_association" "public_assoc" {
   route_table_id = aws_route_table.public.id
 }
 
-# --------------------
 # Private Route Table -> NAT
-# --------------------
+
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
   route {
